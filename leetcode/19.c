@@ -1,28 +1,17 @@
-#include<stdio.h>
-#include<stdlib.h>
+给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 
-struct ListNode
-{
-    int val;
-    struct ListNode *next;
-};
+进阶：你能尝试使用一趟扫描实现吗？
 
-struct ListNode* Create();
-struct ListNode* removeNthFromEnd(struct ListNode* head, int n);
-void print(struct ListNode *head);
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
 
-int main()
-{
-    struct ListNode *head;
-    int n;
-    head = Create();
-    scanf("%d", &n);
-    head = removeNthFromEnd(head, n);
-    print(head);
-}
-
-struct ListNode* removeNthFromEnd(struct ListNode* head, int n)
-{
+//常规解法：先遍历一遍链表来确定链表的结点数量，再删除倒数第n个结点
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
     struct ListNode *t,*q;
     int len,count;
     len = 1;
@@ -56,39 +45,4 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n)
         count++;
     }
     return head;
-}
-
-struct ListNode* Create()
-{
-    struct ListNode *p,*q,*head;
-    int n,b;
-    head = NULL;
-    scanf("%d", &n);
-    for(int i=0;i<n;i++)
-    {
-        scanf("%d", &b);
-        p = (struct ListNode *)malloc(sizeof(struct ListNode));
-        p->val = b;
-        p->next = NULL;
-        if(head == NULL)
-        {
-            head = p;
-        }
-        else
-        {
-            q->next = p;
-        }
-        q = p;
-    }
-    return head;
-}
-
-void print(struct ListNode *head)
-{
-    while(head != NULL)
-    {
-        printf("%d ", head->val);
-        head = head->next;
-    }
-    printf("\n");
-}
+}}

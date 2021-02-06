@@ -17,45 +17,48 @@
  * };
  */
 
-//这个题目使用双指针的思路
-//先使用快慢指针，找到链表的中间结点
-//然后逆置后半部分的链表
-//将两个链表进行比对得出结果
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+//这道题目的基本思路就是直接创建一个新的链表
+//通过头插的方式来将整个链表逆置
+//然后一一进行比对得出结果
 
 bool isPalindrome(struct ListNode* head){
-    struct ListNode *fast,*slow,*p,*q,*r,*t;
-    fast = head;
-    slow = head;
-    while(fast && slow && slow->next && fast->next && fast->next->next)	//找到中间结点
-    {
-        fast = fast->next->next;
-        slow = slow->next;
-    }
-    if(fast && slow)			//如果是奇数的话，那么中间结点归前半段
-    {
-        p = slow->next;
-        r = NULL;
-    }
-    else				//如果链表不存在的话，返回true
-    {
-        return true;
-    }
-    while(p)
-    {
-        q = p->next;
-        p->next = r;
-        r = p;
-        p = q;
-    }
+        struct ListNode *head0,*p,*t;
+    struct ListNode *a,*b;
+    int count=0,len=0;
+    head0 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    head0->next = NULL;
     t = head;
-    while(r && t)
+    while(t)			//头插法创建链表
     {
-        if(t->val != r->val)
+        p = (struct ListNode *)malloc(sizeof(struct ListNode));
+        p->val = t->val;
+        p->next = head0->next;
+        head0->next = p;
+        t = t->next;
+        len++;
+    }
+    a = head;
+    b = head0->next;
+    while(a)			//一一比对
+    {
+        if(a->val == b->val)
+        {
+            count++;
+        }
+        else
         {
             return false;
         }
-        r = r->next;
-        t = t->next;
+        a = a->next;
+        b = b->next;
     }
     return true;
 }

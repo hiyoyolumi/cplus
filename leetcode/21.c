@@ -20,9 +20,12 @@
  * };
  */
 
-//使用递归
+//迭代
+//先创建一个头结点，使得哨兵结点向后移动的操作一致
+//当 l1 和 l2 都不是空链表时，判断 l1 和 l2 哪一个链表的头节点的值更小，将较小值的节点添加到结果里，当一个节点//被添加到结果里之后，将对应链表中的节点向后移一位。
 
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode *pre,*head;
     if(!l1)
     {
         return l2;
@@ -31,14 +34,29 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
     {
         return l1;
     }
-    else if(l1->val<l2->val)
+    head = (struct ListNode *)malloc(sizeof(struct ListNode));
+    head->next = NULL;
+    pre = head;
+    do
     {
-        l1->next = mergeTwoLists(l1->next, l2);
-        return l1;
-    }
-    else
-    {
-        l2->next = mergeTwoLists(l1, l2->next);
-        return l2;
-    }
+        if(!l1 || !l2)
+        {
+            pre->next = l1==NULL ? l2 : l1;
+            return head->next;
+        }
+        if(l1->val < l2->val)
+        {
+            pre->next = l1;
+            pre = l1;
+            l1 = l1->next;
+        }
+        else
+        {
+            pre->next = l2;
+            pre = l2;
+            l2 = l2->next;
+        }
+    } while(pre);
+
+    return head->next;
 }

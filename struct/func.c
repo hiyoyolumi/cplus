@@ -23,7 +23,8 @@ void welcome() {
 void menu() {
     printf("1. 查询业务办理\n");
     printf("2. 系统查询\n");
-    printf("3. 退出\n");
+    printf("3. 开始下一天\n");
+    printf("4. 退出\n");
 }
 
 void good_bye() {

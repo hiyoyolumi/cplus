@@ -100,3 +100,16 @@ Lnode* sortList(Lnode* head){
     newhead = mergelist(left,right);
     return newhead;
 }
+
+void link_destory(Lnode *head) {
+    Lnode *p, *q;
+    p = head->next;
+    while (p) {
+        q = p;
+        p = p->next;
+        free(q);
+        q = NULL;
+    }
+    free(head);
+    head = NULL;
+}

@@ -18,9 +18,23 @@ typedef struct Lnode
  * @return Lnode* 
  */
 Lnode *Create();
+
+/**
+ * @brief 以下三个函数用于对数组进行排序
+ * 
+ * @param head 
+ * @return Lnode* 
+ */
 Lnode* midnode(Lnode* head);
 Lnode* mergelist(Lnode* left, Lnode* right);
 Lnode* sortList(Lnode* head);
 void print(Lnode *head);
+
+/**
+ * @brief 销毁链表
+ * 
+ * @param head 
+ */
+void link_destory(Lnode *head);
 
 #endif

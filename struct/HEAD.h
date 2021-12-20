@@ -88,10 +88,14 @@ void good_bye();
 //初始化随机顾客
 void init_custom(Queue *q);
 
-//进入银行
-//主函数的入口
-//无返回值
-void Step_in();
+/**
+ * @brief 进入银行，银行菜单界面的入口
+ * 
+ * @param q 
+ * @return int 返回 1 表示进入下一天
+ *             返回 0 表示退出系统
+ */
+int Step_in(Queue *q);
 
 //生成随机数
 //返回随机数
@@ -110,11 +114,18 @@ Time turn_to_time(int min);
  * @param arrived_time 
  * @return Time 
  */
-Time get_leave_time(Time arrived_time);
+Time get_leave_time(Time arrived_time); //OK
 
 //取号
 //返回当前编号
 //现在看起来没有用
 int get_serial_num(Queue *q);   //OK
+
+/**
+ * @brief 查询业务办理
+ * 
+ * @param q 
+ */
+void inquiry_business_handle(Queue *q);
 
 #endif

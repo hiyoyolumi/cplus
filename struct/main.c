@@ -10,11 +10,20 @@
 int main() {
     //重置随机数种子
     srand((unsigned)time(NULL));
-    //初始化随机顾客
-    init_custom();
-    //进入银行
-    Step_in();
 
+    while (1) {
+        //初始化队列
+        Queue *q = initQueue();
+
+        //初始化随机顾客 并 存入 队列 中
+        init_custom(q);
+
+        //进入银行
+        if (!Step_in(q)) {
+            //退出程序
+            break;
+        }
+    }
 
     return 0;
 }
@@ -30,4 +39,4 @@ int main() {
     print(head);
 }
 
-#endif 
+#endif

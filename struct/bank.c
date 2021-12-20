@@ -11,7 +11,7 @@ Time_data customs[100];
 //在这个函数中
 // void init_custom() {
 //     int temp[100];
-
+//
 //     printf("请输入顾客人数:");
 //     int n;
 //     scanf("%d", &n);
@@ -21,13 +21,14 @@ Time_data customs[100];
 //     }
 //     //对随机生成的时间进行排序
 //     qsort(temp, n, sizeof(int), cmpfunc);
-    
+//  
 //     //将 temp 中的 min 转换到 customs.arrived (Time)
 //     for (int i = 0; i < n; i++) {
 //         customs[i].arrivd_time = turn_to_time(temp[i]);
 //     }
 // }
 
+//初始化随机顾客
 void init_custom(Queue *q) {
     Lnode *Lhead;
     Lhead = Create();
@@ -50,21 +51,23 @@ void init_custom(Queue *q) {
 
         t = t->next;
     }
+    //导入队列完毕之后，将链表销毁，节省内存
+    link_destory(Lhead);
 }
 
 //走进银行
-void Step_in() {
+int Step_in(Queue *q) {
     //打印银行欢迎界面
     welcome();
     
     //初始化队列
-    Queue *q = initQueue();
-    if (q == NULL) {
-        printf("队列初始化失败\n");
-        return;
-    }
-    int flag = 1;
-    while (flag) {
+    // Queue *q = initQueue();
+    // if (q == NULL) {
+    //     printf("队列初始化失败\n");
+    //     return;
+    // }
+    
+    while (1) {
         //打印菜单界面
         menu();
 
@@ -73,19 +76,32 @@ void Step_in() {
         switch (temp)
         {
         case 1:
-
+            //查询业务办理
+            inquiry_business_handle(q);
             break;
         case 2:
+            //系统查询
 
             break;
 
         case 3:
-            flag = 0;
-            break;
+            //进入下一天
+            return 1;
+
+        case 4:
+            //退出系统
+            return 0;
 
         default:
             printf("请输入指定序号\n");
             break;
         }
     }
+}
+
+void inquiry_business_handle(Queue *q) {
+    printf("输入查询时间点:");
+    Time temp_time;
+    scanf("%d:%d", &temp_time.min_h, &temp_time.min_min);
+    
 }

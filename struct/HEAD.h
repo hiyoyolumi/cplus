@@ -77,6 +77,9 @@ void menu();    //OK
 //结束界面
 void good_bye();
 
+//初始化随机顾客
+void init_custom();
+
 //进入银行
 //主函数的入口
 //无返回值
@@ -90,5 +93,7 @@ int get_rand_num(); //OK
 //返回当前编号
 int get_serial_num(Queue *q);
 
+//进入取号系统
+int system_serial();
 
 #endif

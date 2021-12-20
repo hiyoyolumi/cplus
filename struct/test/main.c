@@ -5,11 +5,8 @@ struct node {
     int b;
 };
 
+int num_birth = 10;
+
 int main() {
-    struct node *a, *b;
-    a->a = 10;
-    a->b = 20;
-    b = a;
-    b->a = 100;
-    printf("%d", a->a);
+    test01();
 }

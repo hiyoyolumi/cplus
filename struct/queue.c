@@ -1,19 +1,5 @@
 #include "HEAD.h"
 
-typedef struct Node {
-    int arrivd_time;    //到达时间
-    int wait_time;      //等待时间
-    int leave_time;     //离开时间
-    int business_time;  //办理业务时间
-    int star_time;      //开始办理时间
-    struct Node *next;
-} Time_data;
-
-typedef struct Queue {
-    Time_data *front;   //始终指向头结点
-    Time_data *rear;
-} Queue;
-
 //队列初始化
 Queue *initQueue() {
     Queue *q;
@@ -66,4 +52,15 @@ int Out_Queue(Queue *q) {
         }
         return 1;
     }
+}
+
+int get_Queue_num(Queue *q) {
+    int num = 0;
+    Time_data *t;
+    t = q->front;
+    while (t->next) {
+        num++;
+        t = t->next;
+    }
+    return num;
 }

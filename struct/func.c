@@ -1,5 +1,7 @@
 #include "HEAD.h"
 
+extern Window_status windows[WINDOW_NUMS];
+
 int cmpfunc (const void * a, const void * b)
 {
    return ( *(int*)a - *(int*)b );
@@ -21,7 +23,7 @@ void welcome() {
 }
 
 void menu() {
-    printf("1. 查询业务办理\n");
+    printf("1. 查询业务办理情况\n");
     printf("2. 系统查询\n");
     printf("3. 开始下一天\n");
     printf("4. 退出\n");
@@ -57,14 +59,87 @@ Time turn_to_time(int min) {
     return time_h;
 }
 
-Time get_leave_time(Time arrived_time) {
-    Time leave_time;
-    if (arrived_time.min_min + 10 >= 60) {
-        leave_time.min_h = arrived_time.min_h + 1;
-        leave_time.min_min = arrived_time.min_min - 50;
+/**
+ * @brief Get the leave time object
+ *        实现应该用 star_time + 10min
+ * 
+ * @param arrived_time 
+ * @return Time 
+ */
+void get_leave_time(Time_data *node) {
+    //先判断有没有空闲窗口
+    int win_serial;
+    win_serial = get_free_window();
+    if (win_serial == -1) {
+        //没有空闲窗口
+
+        //找到最早结束的窗口
+        int min_win_serial = find_fast_window();
+        
+        //最早窗口的离开时间就是排队第一人的开始时间(star_time)
+        //但是由于程序最初的设计问题，在第一轮之后窗口的status无法回到0
+        //所以，需要对最早窗口的离开时间进行判断
+        Time temp_leave_time = windows[min_win_serial].cur_leave_time;
+        if (compare_time(temp_leave_time, node->arrivd_time) == 1) {
+            node->star_time = node->arrivd_time;
+        } else {
+            node->star_time = windows[min_win_serial].cur_leave_time;
+        }
+        node->window_serial = min_win_serial;
+        node->leave_time = star_to_leave(node);
     } else {
-        leave_time.min_h = arrived_time.min_h;
-        leave_time.min_min = arrived_time.min_min + 10;
+        //有空闲窗口
+        
+        //将该窗口设置为占用
+        windows[win_serial].status = 1;
+        //将客户编号赋值给窗口
+        windows[win_serial].cur_custom_serial = node->serial_num;
+        node->window_serial = win_serial;
+        node->star_time = node->arrivd_time;
+        node->leave_time = star_to_leave(node);
     }
-    return leave_time;
+}
+
+int find_fast_window() {
+    Time min = windows[0].cur_leave_time;
+    int min_win_serial = 0;
+    for (int i = 1; i < WINDOW_NUMS; i++) {
+        if (compare_time(min, windows[i].cur_leave_time) == 0) {
+            min_win_serial = i;
+            min = windows[i].cur_leave_time;
+        }
+    }
+    return min_win_serial;
+}
+
+Time star_to_leave(Time_data *node) {
+    Time leave_time;
+    
+    //15:40 + 40 = 16:20
+    if (node->star_time.min_min + node->business_time >= 60) {
+        node->leave_time.min_h = node->star_time.min_h + 1;
+        node->leave_time.min_min = node->star_time.min_min 
+                                    - 60 + node->business_time;
+    } else {
+        node->leave_time.min_h = node->star_time.min_h;
+        node->leave_time.min_min = node->star_time.min_min + node->business_time;
+    }
+
+
+    // if (arrived_time.min_min + 10 >= 60) {
+    //     leave_time.min_h = arrived_time.min_h + 1;
+    //     leave_time.min_min = arrived_time.min_min - 50;
+    // } else {
+    //     leave_time.min_h = arrived_time.min_h;
+    //     leave_time.min_min = arrived_time.min_min + 10;
+    // }
+}
+
+int get_free_window() {
+    for (int i = 0; i < WINDOW_NUMS; i++) {
+        if (windows[i].status == 0) {
+            return i;
+        }
+    }
+    return -1;
 }

@@ -5,8 +5,12 @@ struct node {
     int b;
 };
 
+#define INT int
+
 int num_birth = 10;
 
 int main() {
-    test01();
+    INT a;
+    printf("sizeof = %d\n", sizeof(INT));
+    return 0;
 }

@@ -12,7 +12,7 @@ Lnode *Create() {
     head->data = -1;
     head->next = NULL;
     q = head;
-    printf("输入顾客的数量\n");
+    printf("---输入顾客的数量:");
     int n;
     scanf("%d", &n);
     for (int i = 0; i < n; i++) {

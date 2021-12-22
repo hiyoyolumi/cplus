@@ -54,7 +54,7 @@ void Enqueue(Queue *q, Time_data *data) {
 int Out_Queue(Queue *q) {
     if (isEmpty(q)) {
         // TODO 感觉之后会在这里添东西
-        printf("当前没有人排队\n");
+        printf("\n当前没有人排队\n");
         return 0;
     } else {
         //出队后 front 指向队头，出队的结点不会被释放

@@ -19,7 +19,7 @@ void init_custom(Queue *q) {
         duff = turn_to_time(t->data);
         //给队列结点的 arrived_time wait_time leave_time 赋值
         temp->arrivd_time = duff;
-        temp->business_time = 10;
+        temp->business_time = rand() % 30;
 
         //给结点的客户编号赋值
         temp->serial_num = get_serial_num(q);
@@ -83,14 +83,14 @@ int Step_in(Queue *q) {
                 return 0;
 
             default:
-                printf("请输入指定序号\n");
+                printf("---请输入指定序号\n");
                 break;
         }
     }
 }
 
 void inquiry_business_handle(Queue *q) {
-    printf("输入查询时间点:");
+    printf("---输入查询时间点:");
     Time temp_time;
     scanf("%d:%d", &temp_time.min_h, &temp_time.min_min);
 
@@ -105,18 +105,24 @@ void inquiry_business_handle(Queue *q) {
 void get_queue_situation(Queue *q, Time input_time) {
     //遍历队列，找到输入时间之前的时间结点
     Time_data *t = q->head->next;
+    int x = 0;
     while (t) {
         int flag = is_the_time(t, input_time);
         if (flag == 0) {
-
+            
         } else if (flag == 1) {
+            x = 1;
             print_deal_node(t);
         } else if (flag == 2) {
+            x = 1;
             print_wait_node(t);
         } else if (flag == 3) {
             break;
         }
         t = t->next;
+    }
+    if (!x) {
+        printf("\n---当前银行没有客户\n");
     }
 }
 

@@ -10,7 +10,7 @@ int cmpfunc (const void * a, const void * b)
 void welcome() {
     //变色功能在 Linux 系统下适用，在 Windows 系统下不可用
     printf("\e[37;40m ********************************** \e[0m\n");
-    printf("\e[37;44m *         欢迎登录银行系统          * \e[0m\n");
+    printf("\e[37;44m *         欢迎登录银行系统       * \e[0m\n");
     printf("\e[37;44m * Welcome to the banking system  * \e[0m\n");
     printf("\e[37;44m *                                * \e[0m\n");
     printf("\e[31;43m *          ****  ****            * \e[0m\n");
@@ -23,7 +23,7 @@ void welcome() {
 }
 
 void menu() {
-    printf("1. 查询业务办理情况\n");
+    printf("\n1. 查询业务办理情况\n");
     printf("2. 系统查询\n");
     printf("3. 开始下一天\n");
     printf("4. 退出\n");

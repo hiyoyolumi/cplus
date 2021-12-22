@@ -36,13 +36,11 @@ void Enqueue(Queue *q, Time_data *data) {
     p->leave_time = data->leave_time;
     p->business_time = data->business_time;
     p->star_time = data->star_time;
-    printf("%d\n", __LINE__);
+    p->window_serial = data->window_serial;
     p->next = NULL;
 
     q->rear->next = p;
-    printf("%d\n", __LINE__);
     q->rear = p;
-    printf("%d\n", __LINE__);
 }
 //出队
 //返回 1 成功， 0 失败

@@ -54,7 +54,7 @@ int get_serial_num(Queue *q) {
 
 Time turn_to_time(int min) {
     Time time_h;
-    time_h.min_h = min / 60;
+    time_h.min_h = 9 + (min / 60);  //早上九点上班
     time_h.min_min = min % 60;
     return time_h;
 }
@@ -70,6 +70,7 @@ void get_leave_time(Time_data *node) {
     //先判断有没有空闲窗口
     int win_serial;
     win_serial = get_free_window();
+    // printf("窗口编号：%d\n", win_serial);
     if (win_serial == -1) {
         //没有空闲窗口
 
@@ -86,7 +87,8 @@ void get_leave_time(Time_data *node) {
             node->star_time = windows[min_win_serial].cur_leave_time;
         }
         node->window_serial = min_win_serial;
-        node->leave_time = star_to_leave(node);
+        star_to_leave(node);
+        windows[min_win_serial].cur_leave_time = node->leave_time;
     } else {
         //有空闲窗口
         
@@ -96,7 +98,8 @@ void get_leave_time(Time_data *node) {
         windows[win_serial].cur_custom_serial = node->serial_num;
         node->window_serial = win_serial;
         node->star_time = node->arrivd_time;
-        node->leave_time = star_to_leave(node);
+        star_to_leave(node);
+        windows[win_serial].cur_leave_time = node->leave_time;
     }
 }
 
@@ -112,7 +115,7 @@ int find_fast_window() {
     return min_win_serial;
 }
 
-Time star_to_leave(Time_data *node) {
+void star_to_leave(Time_data *node) {
     Time leave_time;
     
     //15:40 + 40 = 16:20
@@ -125,14 +128,6 @@ Time star_to_leave(Time_data *node) {
         node->leave_time.min_min = node->star_time.min_min + node->business_time;
     }
 
-
-    // if (arrived_time.min_min + 10 >= 60) {
-    //     leave_time.min_h = arrived_time.min_h + 1;
-    //     leave_time.min_min = arrived_time.min_min - 50;
-    // } else {
-    //     leave_time.min_h = arrived_time.min_h;
-    //     leave_time.min_min = arrived_time.min_min + 10;
-    // }
 }
 
 int get_free_window() {

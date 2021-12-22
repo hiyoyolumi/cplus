@@ -3,7 +3,7 @@
 
 #define MAX 100
 
-#define FLAG 0
+#define FLAG 1
 
 Window_status windows[WINDOW_NUMS];    //四个窗口 0 代表空闲 1 代表正在处理业务
 
@@ -40,15 +40,15 @@ void print_node(Time_data *t) {
     printf("-------------------------");
     printf("客户编号：%d\n", t->serial_num);
     printf("办理业务窗口：%d\n", t->window_serial);
-    printf("到达时间：%d\n", t->arrivd_time);
-    printf("开始时间：%d\n", t->star_time);
-    printf("离开时间：%d\n", t->leave_time);
-    printf("办理业务时间：%d\n", t->business_time);
-    printf("-------------------------");
+    printf("到达时间：%d:%d\n", t->arrivd_time.min_h, t->arrivd_time.min_min);
+    printf("开始时间：%d:%d\n", t->star_time.min_h, t->star_time.min_min);
+    printf("离开时间：%d:%d\n", t->leave_time.min_h, t->leave_time.min_min);
+    printf("办理业务时间：%d (min)\n", t->business_time);
+    printf("-------------------------\n");
 }
 void print_queue(Queue *q) {
     while (!isEmpty(q)) {
-        print_node(q->front);
+        print_node(q->front->next);
         Out_Queue(q);
     }
 }
@@ -56,11 +56,12 @@ void print_queue(Queue *q) {
 int main() {
     srand((unsigned)time(NULL));
     Queue *q = initQueue();
-    Time_data *p;
-    p->serial_num = 111;
-    Enqueue(q, p);
-    p->serial_num = 222;
-    Enqueue(q, p);
+    init_custom(q);
+    // Time_data *p = (Time_data *)malloc(sizeof(Time_data));
+    // p->serial_num = 111;
+    // Enqueue(q, p);
+    // p->serial_num = 222;
+    // Enqueue(q, p);
     print_queue(q);
 
     return 0;

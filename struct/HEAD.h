@@ -75,7 +75,7 @@ int find_fast_window();
  * @param node 
  * @return Time 
  */
-Time star_to_leave(Time_data *node);    //OK
+void star_to_leave(Time_data *node);    //OK
 
 // qsort()辅助函数
 int cmpfunc(const void *a, const void *b);
@@ -187,7 +187,7 @@ void get_queue_situation(Queue *q, Time input_time);
  * 
  * @param t     队列结点
  * @param ti    输入的时间
- * @return int  TRUE 为 找到，FALSE 反之
+ * @return int  0 没有找到 1 正在办理业务 2 正在排队 3 表示不用继续往后面找了
  */
 int is_the_time(Time_data *t, Time input_time);
 
@@ -200,5 +200,33 @@ int is_the_time(Time_data *t, Time input_time);
  *             返回 2 表示两者时间相同
  */
 int compare_time(Time ti1, Time ti2); //OK
+
+/**
+ * @brief 打印出正在排队的结点的信息
+ * 
+ * @param t 
+ */
+void print_wait_node(Time_data *t);
+
+/**
+ * @brief 打印出正在办理业务的结点信息
+ * 
+ * @param t 
+ */
+void print_deal_node(Time_data *t);
+
+/**
+ * @brief 打印结点信息
+ * 
+ * @param t 
+ */
+void print_node(Time_data *t);
+
+/**
+ * @brief 打印队列中每个结点的信息
+ * 
+ * @param q 
+ */
+void print_queue(Queue *q);
 
 #endif

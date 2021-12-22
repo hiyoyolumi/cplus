@@ -17,8 +17,6 @@ Lnode *Create() {
     scanf("%d", &n);
     for (int i = 0; i < n; i++) {
         int b = get_rand_num();
-        printf("%s : %d\n", __FILE__, __LINE__);
-        // printf("%d\n", b);
         p = (Lnode *)malloc(sizeof(Lnode));
         p->data = b;
         p->next = NULL;
@@ -26,7 +24,6 @@ Lnode *Create() {
         q->next = p;
         q = p;
     }
-    printf("%s : %d\n", __FILE__, __LINE__);
     return head;
 }
 

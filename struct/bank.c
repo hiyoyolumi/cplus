@@ -35,10 +35,8 @@ void init_custom(Queue *q) {
     Lnode *Lhead;
     Lhead = Create();
     //此时 Lhead 中存放随机生成的顾客
-    printf("%s : %d", __FILE__, __LINE__);
     //对链表进行排序
     sortList(Lhead);
-    printf("%s : %d", __FILE__, __LINE__);
     //将顾客到达时间存入 队列 中
     Lnode *t = Lhead->next;
     while (t) {
@@ -52,11 +50,12 @@ void init_custom(Queue *q) {
         //给结点的客户编号赋值
         temp->serial_num = get_serial_num(q);
         // leave_time 基本实现了，但是感觉会出 BUG
+        // 这里竟然没出BUG，反而是下面的入队代码出BUG了
         // 将 leave_time 存入 temp 中
         get_leave_time(temp);
         //入队
         Enqueue(q, temp);
-
+        printf("%d\n", __LINE__);
         t = t->next;
     }
     //导入队列完毕之后，将链表销毁，节省内存

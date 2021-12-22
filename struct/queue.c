@@ -31,17 +31,18 @@ void Enqueue(Queue *q, Time_data *data) {
 
     //把传入的参数复制给分配的地址
     p->serial_num = data->serial_num;
-
     p->arrivd_time = data->arrivd_time;
     p->wait_time = data->wait_time;
     p->leave_time = data->leave_time;
     p->business_time = data->business_time;
     p->star_time = data->star_time;
-
+    printf("%d\n", __LINE__);
     p->next = NULL;
 
     q->rear->next = p;
+    printf("%d\n", __LINE__);
     q->rear = p;
+    printf("%d\n", __LINE__);
 }
 //出队
 //返回 1 成功， 0 失败

@@ -55,17 +55,30 @@ void print_queue(Queue *q) {
 
 int main() {
     srand((unsigned)time(NULL));
-    
     Queue *q = initQueue();
-    // printf("%d\n", __LINE__);
-    init_windows();
-    // printf("%s : %d\n", __FILE__, __LINE__);
-    init_custom(q);
-    printf("%s : %d\n", __FILE__, __LINE__);
+    Time_data *p;
+    p->serial_num = 111;
+    Enqueue(q, p);
+    p->serial_num = 222;
+    Enqueue(q, p);
     print_queue(q);
 
     return 0;
 }
+
+// int main() {
+//     srand((unsigned)time(NULL));
+    
+//     Queue *q = initQueue();
+//     // printf("%d\n", __LINE__);
+//     init_windows();
+//     // printf("%s : %d\n", __FILE__, __LINE__);
+//     init_custom(q);
+//     printf("%s : %d\n", __FILE__, __LINE__);
+//     print_queue(q);
+
+//     return 0;
+// }
 
 
 // int main() {

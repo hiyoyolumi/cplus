@@ -28,6 +28,7 @@ void init_custom(Queue *q) {
         // 入队代码修好了，因为我没有给传入的指针分配空间
         // 现在还是 leave_time 有BUG
         // 将 leave_time 存入 temp 中
+        // 现在没啥问题了
         get_leave_time(temp);
         // printf("window_serial = %d\n", temp->window_serial);
         //入队

@@ -15,7 +15,7 @@ typedef struct Lnode
 /**
  * @brief 链表的基本操作
  * 
- * @return Lnode* 
+ * @return Lnode* 返回链表头结点
  */
 Lnode *Create();
 
@@ -28,12 +28,17 @@ Lnode *Create();
 Lnode* midnode(Lnode* head);
 Lnode* mergelist(Lnode* left, Lnode* right);
 Lnode* sortList(Lnode* head);
+/**
+ * @brief 打印链表
+ * 
+ * @param head 链表头结点
+ */
 void print(Lnode *head);
 
 /**
  * @brief 销毁链表
  * 
- * @param head 
+ * @param head 链表头结点
  */
 void link_destory(Lnode *head);
 

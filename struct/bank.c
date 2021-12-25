@@ -17,9 +17,11 @@ void init_custom(Queue *q) {
         temp = (Time_data *)malloc(sizeof(Time_data));
         Time duff;
         duff = turn_to_time(t->data);
+        //给队列结点的 vip_status 赋值
+        temp->vip_status = if_is_vip();
         //给队列结点的 arrived_time wait_time leave_time 赋值
         temp->arrivd_time = duff;
-        temp->business_time = rand() % 30;
+        temp->business_time = (rand() % 30) + 1;    //最少 1 min
 
         //给结点的客户编号赋值
         temp->serial_num = get_serial_num(q);
@@ -38,6 +40,36 @@ void init_custom(Queue *q) {
     }
     //导入队列完毕之后，将链表销毁，节省内存
     link_destory(Lhead);
+}
+
+void sortQueue_vip(Queue *q) {
+    Time_data *t = q->head->next;
+    while (t) {
+        if (t->vip_status) {
+            Time_data *temp = q->head->next;
+            Time_data *q_temp = q->head;
+            while (temp != t) {
+                if (is_the_time(temp, t->arrivd_time) == 2) {
+                    q_temp->next = t;
+                    t->next = temp;
+                    break;
+                }
+                temp = temp->next;
+                q_temp = q_temp->next;
+            }
+        }
+        t = t->next;
+    }
+}
+
+int if_is_vip() {
+    // 100 个人里有一个VIP
+    int a = rand() % 100;
+    if (a == 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
 void init_windows() {

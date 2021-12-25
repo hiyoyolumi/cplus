@@ -33,6 +33,7 @@ typedef struct Window_status {
 typedef struct Node {
     int serial_num;     //客户编号
     int window_serial;  //办理业务的窗口
+    int vip_status;     // 1 为VIP，0 为普通用户
 
     Time arrivd_time;   //到达时间
     int wait_time;      //等待时间 要不要的吧
@@ -228,5 +229,19 @@ void print_node(Time_data *t);
  * @param q 
  */
 void print_queue(Queue *q);
+
+/**
+ * @brief 对 VIP 用户进行插队处理
+ * 
+ * @param q 队列结点
+ */ 
+void sortQueue_vip(Queue *q);
+
+/**
+ * @brief 随机一个 VIP 用户
+ * 
+ * @return 返回 TRUE 为 VIP，返回 FALSE 为普通用户
+ */
+int if_is_vip();
 
 #endif

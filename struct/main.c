@@ -25,10 +25,14 @@ int main() {
 
         //进入银行
         if (!Step_in(q)) {
+            //销毁队列
+            destory_queue(q);
             //退出程序
             good_bye();
             break;
         }
+        //销毁队列
+        destory_queue(q);
     }
 
 

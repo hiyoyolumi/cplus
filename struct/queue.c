@@ -76,6 +76,16 @@ int Out_Queue(Queue *q) {
     }
 }
 
+void destory_queue(Queue *q) {
+    Time_data *t;
+    Time_data *p = q->head;
+    while (p) {
+        t = p;
+        p = p->next;
+        free(t);
+    }
+}
+
 int get_Queue_num(Queue *q) {
     int num = 0;
     Time_data *t;

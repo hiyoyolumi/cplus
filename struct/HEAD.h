@@ -164,7 +164,7 @@ Time turn_to_time(int min);
  * 
  * @param arrived_time
  */
-void get_leave_time(Time_data *node);  // OK
+void get_leave_time(Queue *q, Time_data *node);  // OK
 
 //取号
 //返回当前编号

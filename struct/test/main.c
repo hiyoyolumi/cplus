@@ -93,7 +93,7 @@ Time turn_to_time(int min) {
  * @param arrived_time 
  * @return Time 
  */
-void get_leave_time(Time_data *node) {
+void get_leave_time(Queue *q, Time_data *node) {
     //先判断有没有空闲窗口
     int win_serial;
     win_serial = get_free_window();

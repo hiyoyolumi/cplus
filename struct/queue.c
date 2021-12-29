@@ -31,6 +31,7 @@ void Enqueue(Queue *q, Time_data *data) {
 
     //把传入的参数复制给分配的地址
     p->serial_num = data->serial_num;
+    p->vip_status = data->vip_status;
     p->arrivd_time = data->arrivd_time;
     p->wait_time = data->wait_time;
     p->leave_time = data->leave_time;

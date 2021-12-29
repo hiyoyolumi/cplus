@@ -6,6 +6,7 @@
 #define FLAG 1
 
 Window_status windows[WINDOW_NUMS];    //四个窗口 0 代表空闲 1 代表正在处理业务
+Window_status VIP_window;              //VIP窗口
 
 #if FLAG
 

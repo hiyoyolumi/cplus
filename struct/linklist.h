@@ -9,6 +9,7 @@
 typedef struct Lnode
 {
     int data;   //min
+    int identity; //客户身份 0 代表普通用户 1 代表vip用户
     struct Lnode *next;
 }Lnode;
 
@@ -28,6 +29,7 @@ Lnode *Create();
 Lnode* midnode(Lnode* head);
 Lnode* mergelist(Lnode* left, Lnode* right);
 Lnode* sortList(Lnode* head);
+
 /**
  * @brief 打印链表
  * 

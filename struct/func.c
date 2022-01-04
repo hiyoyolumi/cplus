@@ -138,3 +138,8 @@ int get_free_window() {
     }
     return -1;
 }
+
+int if_random_vip() {
+    int flag = rand() % 100; //100个人里有一个vip
+    return flag;
+}

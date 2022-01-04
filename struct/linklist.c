@@ -10,6 +10,7 @@ Lnode *Create() {
     Lnode *p, *q, *head;
     head = (Lnode *)malloc(sizeof(Lnode));
     head->data = -1;
+    head->identity = -1;
     head->next = NULL;
     q = head;
     printf("---输入顾客的数量:");
@@ -19,6 +20,11 @@ Lnode *Create() {
         int b = get_rand_num();
         p = (Lnode *)malloc(sizeof(Lnode));
         p->data = b;
+        if (if_random_vip() == 1) {
+            p->identity = 1;
+        } else {
+            p->identity = 0;
+        }
         p->next = NULL;
         
         q->next = p;

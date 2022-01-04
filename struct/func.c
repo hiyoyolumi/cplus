@@ -1,6 +1,7 @@
 #include "HEAD.h"
 
 extern Window_status windows[WINDOW_NUMS];
+extern Window_status VIP_window;
 
 int cmpfunc (const void * a, const void * b)
 {
@@ -66,7 +67,7 @@ Time turn_to_time(int min) {
  * @param arrived_time 
  * @return Time 
  */
-void get_leave_time(Time_data *node) {
+void get_leave_time(Queue *q, Time_data *node) {
     //先判断有没有空闲窗口
     int win_serial;
     win_serial = get_free_window();
@@ -80,7 +81,47 @@ void get_leave_time(Time_data *node) {
         //最早窗口的离开时间就是排队第一人的开始时间(star_time)
         //但是由于程序最初的设计问题，在第一轮之后窗口的status无法回到0
         //所以，需要对最早窗口的离开时间进行判断
+        //在加入VIP功能之后，这个地方会引起BUG
         Time temp_leave_time = windows[min_win_serial].cur_leave_time;
+        //如果是VIP的话，就要判断VIP窗口快还是普通窗口快
+        Time temp_vip_leave_time;
+        if (node->vip_status == 1) {
+            if (VIP_window.status == 1) {   //VIP通道有人去过的话
+                temp_vip_leave_time = VIP_window.cur_leave_time;
+                //比较VIP通道和普通通道哪个更快
+                if (compare_time(temp_vip_leave_time, temp_leave_time) == 1) {
+                    //走VIP通道
+                    if (compare_time(temp_vip_leave_time, node->arrivd_time) == 1) {
+                        //说明当前没有人排队
+                        node->star_time = node->arrivd_time;
+                    } else {
+                        node->star_time = VIP_window.cur_leave_time;
+                    }
+                    node->window_serial = 100;
+                    star_to_leave(node);
+                    VIP_window.cur_leave_time = node->leave_time;
+                } else {
+                    //排普通通道更快
+                    if (compare_time(temp_leave_time, node->arrivd_time) == 1) {
+                        node->star_time = node->arrivd_time;
+                    } else {
+                        node->star_time = windows[min_win_serial].cur_leave_time;
+                    }
+                    node->window_serial = min_win_serial;
+                    star_to_leave(node);
+                    windows[min_win_serial].cur_leave_time = node->leave_time;
+                }
+            } else {
+                VIP_window.status = 1;
+                VIP_window.cur_custom_serial = node->serial_num;
+                node->window_serial = 100;
+                node->star_time = node->arrivd_time;
+                star_to_leave(node);
+                VIP_window.cur_leave_time = node->leave_time;
+            }
+            return;
+        }
+
         if (compare_time(temp_leave_time, node->arrivd_time) == 1) {
             node->star_time = node->arrivd_time;
         } else {

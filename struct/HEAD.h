@@ -38,7 +38,7 @@ typedef struct Node {
     Time arrivd_time;   //到达时间
     int wait_time;      //等待时间 要不要的吧
     Time leave_time;    //离开时间
-    int business_time;  //办理业务时间 固定为 10 ，后续完善的话可以将其改为随机数(1~60)
+    int business_time;  //办理业务时间 固定为 10 ，后续完善的话可以将其改为随机数(1~30)
     Time star_time;     //开始办理时间
     struct Node *next;
 } Time_data;
@@ -111,6 +111,12 @@ int Out_Queue(Queue *q);  // OK
 int get_Queue_num(Queue *q);
 
 /**
+ * @brief 销毁队列
+ * 
+ */
+void destory_queue(Queue *q);
+
+/**
  * 欢迎函数
  */
 
@@ -158,7 +164,7 @@ Time turn_to_time(int min);
  * 
  * @param arrived_time
  */
-void get_leave_time(Time_data *node);  // OK
+void get_leave_time(Queue *q, Time_data *node);  // OK
 
 //取号
 //返回当前编号

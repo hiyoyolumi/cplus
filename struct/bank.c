@@ -31,40 +31,66 @@ void init_custom(Queue *q) {
         // 现在还是 leave_time 有BUG
         // 将 leave_time 存入 temp 中
         // 现在没啥问题了
-        get_leave_time(temp);
+        get_leave_time(q, temp);
         // printf("window_serial = %d\n", temp->window_serial);
         //入队
         Enqueue(q, temp);
         t = t->next;
         free(temp);
     }
-    //导入队列完毕之后，将链表销毁，节省内存
+
     link_destory(Lhead);
+
+
+    //这个思路不行，换一个思路
+    // //对VIP用户进行重排
+    // sortQueue_vip(q);
+    
+    // //这里修改之后为什么还是不对呢？
+    // init_windows();
+    // Time_data *temp = q->head->next;
+    // while (temp) {
+    //     get_leave_time(q, temp);
+    //     temp = temp->next;
+    // }
+
+    //导入队列完毕之后，将链表销毁，节省内存
 }
 
 void sortQueue_vip(Queue *q) {
     Time_data *t = q->head->next;
+    Time_data *q_t = q->head;
     while (t) {
         if (t->vip_status) {
             Time_data *temp = q->head->next;
             Time_data *q_temp = q->head;
             while (temp != t) {
                 if (is_the_time(temp, t->arrivd_time) == 2) {
+                    Time_data *temp1 = t->next;
+                    Time_data *temp2 = temp->next;
                     q_temp->next = t;
-                    t->next = temp;
+                    q_temp->next->next = temp2;
+                    q_t->next = temp;
+                    q_t->next->next = temp1;
                     break;
                 }
                 temp = temp->next;
                 q_temp = q_temp->next;
             }
+            get_leave_time(q, t);
+            get_leave_time(q, temp);
+            t = temp;
+            t = t->next;
+            continue;
         }
         t = t->next;
+        q_t = q_t->next;
     }
 }
 
 int if_is_vip() {
-    // 100 个人里有一个VIP
-    int a = rand() % 100;
+    // 10 个人里有一个VIP
+    int a = rand() % 10;
     if (a == 1) {
         return TRUE;
     } else {
@@ -75,7 +101,9 @@ int if_is_vip() {
 void init_windows() {
     for (int i = 0; i < WINDOW_NUMS; i++) {
         windows[i].cur_custom_serial = 0;
-        windows[i].status = i;
+        windows[i].cur_leave_time.min_h = 0;
+        windows[i].cur_leave_time.min_min = 0;
+        windows[i].status = 0;
     }
 }
 
@@ -217,7 +245,16 @@ void print_deal_node(Time_data *t) {
 void print_node(Time_data *t) {
     printf("-------------------------");
     printf("客户编号：%d\n", t->serial_num);
-    printf("办理业务窗口：%d\n", t->window_serial);
+    if (t->vip_status == 1) {
+        printf("\e[31;43m 客户身份：VIP \e[0m\n");
+    } else {
+        printf("客户身份：普通\n");
+    }
+    if (t->window_serial == 100) {
+        printf("办理业务窗口：VIP窗口\n");
+    } else {
+        printf("办理业务窗口：%d\n", t->window_serial);
+    }
     printf("到达时间：%d:%d\n", t->arrivd_time.min_h, t->arrivd_time.min_min);
     printf("开始时间：%d:%d\n", t->star_time.min_h, t->star_time.min_min);
     printf("离开时间：%d:%d\n", t->leave_time.min_h, t->leave_time.min_min);
